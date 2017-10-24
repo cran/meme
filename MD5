@@ -1,0 +1,11 @@
+416fd41e5dfedba8e5b3c1ae900261b4 *DESCRIPTION
+5ba4de02f1aa3e25cf9a9f1f2ca5813e *NAMESPACE
+4f55dedb38fc5715f79c210536f7e158 *R/meme.R
+16b035b430fc6f4343634517dd34a214 *R/utilities.R
+2a57c930db9d2d3e87bdf6dc128c9e65 *inst/icon.png
+78df7811783a7695f6f868a19e2a2ea8 *man/asp.Rd
+a24df2d61aa17b4fb8b3c56507b0791b *man/meme-add.Rd
+0515c011d7cbfe06d21361ec0303f113 *man/meme.Rd
+4be3c5840423ade2bd1a9ade382d9de8 *man/meme_save.Rd
+bbee247d5706423dfe9ba51a251e85d0 *man/print.meme.Rd
+4e0f9320aa4f77694cb8c7eb0751bcae *man/reexports.Rd
