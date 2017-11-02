@@ -1,0 +1,186 @@
+---
+title: "Create Meme in R"
+author: "\\
+
+	Guangchuang Yu\\
+
+        School of Public Health, The University of Hong Kong"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    toc: true
+    theme: cayman
+    highlight: github
+  pdf_document:
+    toc: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{meme introduction}
+  %\VignetteDepends{ggplot2}
+  %\VignetteDepends{grid}
+  %\VignetteDepends{ggimage}
+  %\VignetteDepends{cowplot}
+  %\usepackage[utf8]{inputenc}
+---
+
+
+
+```{r include=FALSE}
+knitr::opts_chunk$set(warning = FALSE,
+                      message = TRUE)
+
+library(grid)
+library(ggplot2)
+library(ggimage)
+library(meme)
+library(cowplot)
+```
+
+
+## special note for windows users
+
+For windows users, you need to register your font before using it in R graphics
+(see discussion [here](https://github.com/GuangchuangYu/meme/issues/1)).
+
+```{r}
+if (.Platform$OS.type == "windows") {
+    windowsFonts(
+        Impact = windowsFont("Impact"),
+        Courier = windowsFont("Courier"),
+        STHeiti = windowsFont("STHeiti"))
+}
+```
+
+## `meme`
+
+
+Call `meme` to add meme captions:
+
+
+```{r fig.width=7, fig.height=3.9375}
+library(meme)
+u <- system.file("angry8.jpg", package="meme")
+meme(u, "code", "all the things!")
+```
+
+## The grammar of meme
+
+
+Not that useful, just to mimic `ggplot2`:
+
+
+```{r fig.width=7, fig.height=3.9375}
+mmplot(u) + mm_caption("calm down", "and RTFM",
+                       color="purple")
+```
+
+
+
+## `meme_save`: a meme version of `ggsave`
+
+The `meme` output can be saved as an object, and can be exported to file using
+`meme_save`. `meme_save` helps user setting up
+the output figure aspect ratio and calls `ggsave` to export the figure:
+
+
+```{r message=TRUE}
+u2 <- system.file("success.jpg", package="meme")
+x <- meme(u2, "please", "tell me more")
+```
+
+```{r eval=FALSE}
+outfile <- tempfile(fileext=".png")
+meme_save(x, file=outfile)
+```
+
+
+## `plot` method
+
+
+Users can `plot` the `meme` output and change the caption or other parameters in
+real time.
+
+```{r fig.width=7, fig.height = 3.94}
+plot(x, size = 2, "happy friday!", "wait, sorry, it's monday", color = "firebrick", font = "Courier")
+```
+
+## `+` method
+
+
+Instead of using parameters in `plot()` explictely, Users can use `+ aes()` to set the plot parameters:
+
+
+```{r fig.width=7, fig.height = 3.94}
+x + aes(upper = "#barbarplots",
+        lower = "friends don't let friends make bar plots",
+        color = firebrick, font = Courier, size=1.5)
+```
+
+or using `+ list()`. The following command will also generate the figure
+displayed above.
+
+```{r fig.width=7, fig.height = 3.94, eval=FALSE}
+x + list(upper = "#barbarplots",
+        lower = "friends don't let friends make bar plots",
+        color = "firebrick", font = "Courier", size=1.5)
+```
+
+
+## multi-language support
+
+I didn't do anything about it. Multi-language was supported internally. Just
+simply select a font for your language.
+
+
+```{r fig.width=7, fig.height=3.9375}
+y <- meme(u, "卧槽", "听说你想用中文", font="STHeiti")
+y
+```
+
+
+## grid support
+
+
+```{r fig.width=7}
+library(grid)
+mm <- meme(u, "code", "all the things!", size=.3, color='firebrick', bgcolor=NULL)
+
+grid.newpage()
+pushViewport(viewport(width=.9, height=.9))
+grid.rect(gp = gpar(lty="dashed"))
+
+xx <- seq(0, 2*pi , length.out=10)
+yy <- sin(xx)
+
+for (i in seq_along(xx)) {
+    vp <- viewport(x = xx[i]/(2*pi), y = (yy[i]-min(yy))/2, width=.05, height=.05)
+    print(mm, vp = vp)
+}
+```
+
+
+## ggplot2 support
+
+
+
+```{r fig.width=7, fig.height=4.06}
+library(ggplot2)
+library(ggimage)
+
+d <- data.frame(x = xx, y = yy)
+ggplot(d, aes(x, y)) + geom_line() +
+    geom_subview(mm, x = xx, y = yy, width=.3, height=.15)
+
+ggplot(d, aes(x, y)) +
+    geom_subview(mm+aes(size=3), x=0, y=0, width=Inf, height=Inf) +
+    geom_point() + geom_line()
+```
+
+
+## cowplot support
+
+
+```{r fig.width=7, fig.height=7.88}
+cowplot::plot_grid(x, y, ncol=1, labels = c("A", "B"))
+```
+

@@ -9,6 +9,8 @@
 ##' @param color color of text
 ##' @param font font family of text
 ##' @param vjust vertical adjustment of captions
+##' @param bgcolor background color of shadow text
+##' @param r ratio of shadow text
 ##' @return grob object
 ##' @importFrom magick image_read
 ##' @importFrom magick image_info
@@ -21,10 +23,11 @@
 ##' @importFrom grDevices dev.new
 ##' @export
 ##' @examples
-##' f <- system.file("icon.png", package="meme")
-##' meme(f, "code", "all the things!", size=3)
+##' f <- system.file("angry8.jpg", package="meme")
+##' meme(f, "code", "all the things!", font = "Helvetica")
 ##' @author guangchuang yu
-meme <- function(img, upper="", lower="", size="auto", color="white", font="Helvetica", vjust = .1) {
+meme <- function(img, upper="", lower="", size="auto", color="white", font="Impact",
+                 vjust = .1, bgcolor="black", r = 0.2) {
     x <- image_read(img)
     info <- image_info(x)
 
@@ -35,7 +38,8 @@ meme <- function(img, upper="", lower="", size="auto", color="white", font="Helv
              width = info$width, height = info$height,
              upper=upper, lower=lower,
              size = size, color = color,
-             font = font, vjust = vjust),
+             font = font, vjust = vjust,
+             bgcolor = bgcolor, r = r),
         class = c("meme", "recordedplot"))
     p
 }
@@ -55,7 +59,7 @@ meme <- function(img, upper="", lower="", size="auto", color="white", font="Helv
 ##' @importFrom ggplot2 ggsave
 ##' @export
 ##' @examples
-##' f <- system.file("icon.png", package="meme")
+##' f <- system.file("angry8.jpg", package="meme")
 ##' x <- meme(f, "code", "all the things!")
 ##' outfile <- tempfile(fileext = ".png")
 ##' meme_save(x, outfile)
@@ -81,119 +85,44 @@ meme_save <- function(x, file, width = NULL, height = NULL, ...) {
 }
 
 
-##' Setting meme parameter
-##'
-##'
-##' @rdname meme-add
-##' @param e1 meme object
-##' @param e2 aes()
 ##' @method + meme
+##' @importFrom utils modifyList
 ##' @export
-##' @examples
-##' f <- system.file("icon.png", package="meme")
-##' meme(f, "code", "all the things!") + aes(color="firebrick")
 "+.meme" <- function(e1, e2) {
+    if (is(e2, "uneval"))
+        e2 <- as.character(e2)
     params <- as.list(e2)
     names(params)[names(params) == "colour"] <- "color"
+    params <- params[!sapply(params, is.null)]
     params <- params[names(params) %in% names(e1)]
-    for (i in seq_along(params))
-        e1[names(params)[i]] <- as.character(params[[i]])
-    e1
+    modifyList(e1, params)
 }
 
-## ##' @rdname meme-add
-## ##' @export
-## "%+%" <- `+.meme`
 
-
-## ## @method print meme
-## ## @export
-## print.meme <- function(x, ...) {
-##     msg <- paste0("meme:\n  image souce:  ", x$img,
-##                   "\n  caption:\n    upper:  ", x$upper,
-##                   "\n    lower:  ", x$lower)
-##     message(msg)
-## }
-
-
-##' print method for meme object
+##' plot the image for meme (captions to be added)
 ##'
 ##'
-##' @method print meme
+##' @title mmplot
+##' @param x image file
+##' @return meme object
 ##' @export
-##' @param x meme object
-##' @param size size of text
-##' @param color color of text
-##' @param font font family of text
-##' @param upper upper text
-##' @param lower lower text
-##' @param vjust vertical adjustment ratio
-##' @param ... other arguments not used by this method
-##' @importFrom grDevices dev.list
-##' @importFrom grDevices dev.off
-##' @importFrom grDevices dev.size
-##' @importFrom grDevices dev.interactive
-##' @importFrom grid grid.newpage
-##' @examples
-##' f <- system.file("icon.png", package="meme")
-##' x <- meme(f, "code", "all the things!")
-##' print(x)
-print.meme <- function(x, size = NULL, color = NULL, font = NULL, upper = NULL, lower = NULL, vjust=NULL, ...) {
-    if (is.null(upper))
-        upper <- x$upper
-    if (is.null(lower))
-        lower <- x$lower
+##' @author guangchuang yu
+mmplot <- function(x) {
+    meme(x)
+}
 
-    if (is.null(size))
-        size <- x$size
-    if (is.null(color))
-        color <- x$color
-    if (is.null(font))
-        font <- x$font
-
-    if (size == "auto") {
-        size <- x$height/250
-    }
-    if (is.null(vjust))
-        vjust <- x$vjust
-
-    ds <- dev.size() # w & h
-    h <- ds[1] * asp(x)
-    vjust <- (h*vjust + (ds[2]-h)/2)/ds[2]
-
-    gp <- gpar(col = color, fontfamily = font, cex = size)
-    upperGrob <- textGrob(toupper(upper), gp = gp, vp = viewport(y=1-vjust))
-    lowerGrob <- textGrob(toupper(lower), gp = gp, vp = viewport(y=vjust))
-    meme <- gList(x$imageGrob, upperGrob, lowerGrob)
-
-    if (dev.interactive())
-        grid.newpage()
-
-    grid.draw(meme)
-    invisible(x)
+##' add caption layer for meme
+##'
+##'
+##' @title mm_caption
+##' @param upper upper caption
+##' @param lower lower caption
+##' @param ... additional parameters to set caption
+##' @return meme object
+##' @export
+##' @author guangchuang yu
+mm_caption <- function(upper=NULL, lower=NULL, ...) {
+    list(upper = upper, lower = lower, ...)
 }
 
 
-##' @rdname print.meme
-##' @method plot meme
-##' @export
-plot.meme <- print.meme
-
-
-##' @method grid.draw meme
-##' @export
-grid.draw.meme <- function(x, recording = TRUE) {
-    print(x)
-}
-
-
-##' @method grid.echo meme
-##' @importFrom gridGraphics grid.echo
-##' @export
-grid.echo.meme <- function(x = NULL, newpage = TRUE, prefix = NULL) {
-    if (!is.null(dev.list()))
-        tryCatch(dev.off(), error = function(e) NULL)
-    dev.new(width=7, height=7*x$height/x$width, noRStudioGD = TRUE)
-
-    grid.draw(x)
-}

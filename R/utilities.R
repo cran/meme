@@ -1,9 +1,7 @@
-
+## convert pixel to inch
 px2in <- function(x) {
     x * 0.010417
 }
-
-
 
 ##' aspect ratio of meme
 ##'
@@ -21,7 +19,16 @@ asp <- function(x) {
     x$height/x$width
 }
 
+##' @method length meme
+##' @export
+length.meme <- function(x) {
+    return(1)
+}
+
 ##' @importFrom ggplot2 aes
 ##' @export
 ggplot2::aes
 
+##' @importFrom ggplot2 ggsave
+##' @export
+ggplot2::ggsave
