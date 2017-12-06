@@ -12,18 +12,20 @@ px2in <- function(x) {
 ##' @export
 ##' @author guangchuang yu
 ##' @examples
+##' \dontrun{
 ##' f <- system.file("icon.png", package="meme")
 ##' x <- meme(f, "meme", "produced by meme package")
 ##' asp(x)
+##' }
 asp <- function(x) {
     x$height/x$width
 }
 
-##' @method length meme
-##' @export
-length.meme <- function(x) {
-    return(1)
-}
+## ##' @method length meme
+## ##' @export
+## length.meme <- function(x) {
+##     return(1)
+## }
 
 ##' @importFrom ggplot2 aes
 ##' @export

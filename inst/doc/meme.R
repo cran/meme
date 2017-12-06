@@ -12,8 +12,8 @@ library(cowplot)
 if (.Platform$OS.type == "windows") {
     windowsFonts(
         Impact = windowsFont("Impact"),
-        Courier = windowsFont("Courier"),
-        STHeiti = windowsFont("STHeiti"))
+        Courier = windowsFont("Courier")
+    )
 }
 
 ## ----fig.width=7, fig.height=3.9375--------------------------------------
@@ -72,12 +72,33 @@ library(ggimage)
 
 d <- data.frame(x = xx, y = yy)
 ggplot(d, aes(x, y)) + geom_line() +
-    geom_subview(mm, x = xx, y = yy, width=.3, height=.15)
+    geom_subview(aes(x, y), data=d, subview=mm, width=.3, height=.15)
 
 ggplot(d, aes(x, y)) +
-    geom_subview(mm+aes(size=3), x=0, y=0, width=Inf, height=Inf) +
+    geom_subview(x = 0, y = 0, subview=mm+aes(size=3), width=Inf, height=Inf) +
     geom_point() + geom_line()
 
 ## ----fig.width=7, fig.height=7.88----------------------------------------
 cowplot::plot_grid(x, y, ncol=1, labels = c("A", "B"))
+
+## ----fig.width=7, fig.height=3.5, fig.showtext=TRUE, message=TRUE--------
+## import pokemon fonts
+## downloaded from <https://fontmeme.com/fonts/pokmon-font/>
+font_pokemon()
+
+u <- 'https://ravishly.com/sites/default/files/landscape-1456483171-pokemon2.jpg'
+meme(u, "Pokemon", "pikachu i choose you!", font='Pokemon_Hollow')
+meme(u, "Pokemon", "pikachu i choose you!", font='Pokemon_Solid', color='#FCCF00')
+
+## ----fig.width=7, fig.height=3.5, fig.showtext=TRUE, message=TRUE--------
+## folder that contains bubble1 font
+## downloaded from https://fontmeme.com/fonts/bubble-1-font/
+dir <- system.file('fonts/bubble', package='meme')
+font_import(dir)
+
+meme(u, "the meme package", "is awesome!", font="bubble1")
+
+## ----fig.width=7, fig.height=3.5, fig.showtext=TRUE, message=TRUE--------
+qplot(1:10, 1:10) + labs(title="meme is awesome") +
+    theme(plot.title=element_text(family='bubble1', size=30, color='firebrick'))
 
