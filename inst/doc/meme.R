@@ -78,8 +78,9 @@ ggplot(d, aes(x, y)) +
     geom_subview(x = 0, y = 0, subview=mm+aes(size=3), width=Inf, height=Inf) +
     geom_point() + geom_line()
 
-## ----fig.width=7, fig.height=7.88----------------------------------------
-cowplot::plot_grid(x, y, ncol=1, labels = c("A", "B"))
+## ----fig.width=7, fig.height=7.88, eval=F--------------------------------
+#  library(cowplot)
+#  plot_grid(x, y, ncol=1, labels = c("A", "B"))
 
 ## ----fig.width=7, fig.height=3.5, fig.showtext=TRUE, message=TRUE--------
 ## import pokemon fonts
