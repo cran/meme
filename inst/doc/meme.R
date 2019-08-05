@@ -82,12 +82,14 @@ ggplot(d, aes(x, y)) +
 #  library(cowplot)
 #  plot_grid(x, y, ncol=1, labels = c("A", "B"))
 
-## ----fig.width=7, fig.height=3.5, fig.showtext=TRUE, message=TRUE--------
+## ----fig.width=8, fig.height=4.5, fig.showtext=TRUE, message=TRUE--------
 ## import pokemon fonts
 ## downloaded from <https://fontmeme.com/fonts/pokmon-font/>
 font_pokemon()
 
-u <- 'https://ravishly.com/sites/default/files/landscape-1456483171-pokemon2.jpg'
+
+u <- system.file("ash-pikachu.0.0.jpg", package="meme")
+
 meme(u, "Pokemon", "pikachu i choose you!", font='Pokemon_Hollow')
 meme(u, "Pokemon", "pikachu i choose you!", font='Pokemon_Solid', color='#FCCF00')
 

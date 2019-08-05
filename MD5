@@ -1,4 +1,4 @@
-c1c58d12ef263efa74eca0804863ada5 *DESCRIPTION
+5b9f232f356a0765f09eeb8b4b9a2824 *DESCRIPTION
 cde4205c0c15d4b9314126271c487251 *NAMESPACE
 6449c9cb79b2f8d08792083bab0fe000 *NEWS
 ca68bbba71d1057476d1c0080e44546b *R/font_import.R
@@ -6,11 +6,12 @@ ca68bbba71d1057476d1c0080e44546b *R/font_import.R
 7bfddad33b0d3f4400d8f08e853914d6 *R/meme.R
 3cde485a2b3d763a599c4c08f7d7999e *R/plot.R
 c080401c37430a35b58baaf7ec211a27 *R/utilities.R
-55746a9d1c0c3eb1c31ef7eebf99ccf7 *build/vignette.rds
+2ccd3458bc8e13d434269b5124c63b12 *build/vignette.rds
 481d3b523ed0b5c21a44b6a20806df06 *inst/angry8.jpg
-80a84feafa980418459e53a57edc53c8 *inst/doc/meme.R
-7af3f87ed3863d5957f610478f3a33cb *inst/doc/meme.Rmd
-a243125e5d55ac8815ed293b2d3f529c *inst/doc/meme.html
+bfeccb48e3b0e9e4bd274119fa4dbcf8 *inst/ash-pikachu.0.0.jpg
+6dc18ba168460d281c75f48e94c12fed *inst/doc/meme.R
+e427bcba0959d0391af5afaa636a854c *inst/doc/meme.Rmd
+74e5d372bc6f887198b251b7f613e191 *inst/doc/meme.html
 a3e5c7f810b1607179b96009ccb4ae75 *inst/fonts/bubble/bubble1.ttf
 6e5393a64ca23c455e8568d409e82da6 *inst/fonts/pokemon/Pokemon_Hollow.ttf
 36d26dbcd032a9d91d891c9f22dfdec6 *inst/fonts/pokemon/Pokemon_Solid.ttf
@@ -26,4 +27,4 @@ ba88868debc819fe942c6d6ee55459cd *man/grid.echo.meme.Rd
 b3ddc9bdf1a0d7578a4f6cf43972975c *man/mmplot.Rd
 62f34c3bc424bf85d173e101813d9535 *man/print.meme.Rd
 1120c0c0e8a001d720e7b28d7bfd290b *man/reexports.Rd
-7af3f87ed3863d5957f610478f3a33cb *vignettes/meme.Rmd
+e427bcba0959d0391af5afaa636a854c *vignettes/meme.Rmd
