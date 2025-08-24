@@ -30,21 +30,16 @@ u2 <- system.file("success.jpg", package="meme")
 x <- meme(u2, "please", "tell me more")
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  outfile <- tempfile(fileext=".png")
-#  meme_save(x, file=outfile)
+# outfile <- tempfile(fileext=".png")
+# meme_save(x, file=outfile)
 
 ## ----fig.width=7, fig.height = 3.94-------------------------------------------
 plot(x, size = 2, "happy friday!", "wait, sorry, it's monday", color = "firebrick", font = "Courier")
 
-## ----fig.width=7, fig.height = 3.94-------------------------------------------
-x + aes(upper = "#barbarplots",
-        lower = "friends don't let friends make bar plots",
-        color = firebrick, font = Courier, size=1.5)
-
 ## ----fig.width=7, fig.height = 3.94, eval=FALSE-------------------------------
-#  x + list(upper = "#barbarplots",
-#          lower = "friends don't let friends make bar plots",
-#          color = "firebrick", font = "Courier", size=1.5)
+# x + list(upper = "#barbarplots",
+#         lower = "friends don't let friends make bar plots",
+#         color = "firebrick", font = "Courier", size=1.5)
 
 ## ----fig.width=7, fig.height=3.9375-------------------------------------------
 y <- meme(u, "卧槽", "听说你想用中文", font="STHeiti")
@@ -75,12 +70,12 @@ ggplot(d, aes(x, y)) + geom_line() +
     geom_subview(aes(x, y), data=d, subview=mm, width=.3, height=.15)
 
 ggplot(d, aes(x, y)) +
-    geom_subview(x = 0, y = 0, subview=mm+aes(size=3), width=Inf, height=Inf) +
+    geom_subview(x = 0, y = 0, subview=mm+list(size=3), width=Inf, height=Inf) +
     geom_point() + geom_line()
 
 ## ----fig.width=7, fig.height=7.88, eval=F-------------------------------------
-#  library(cowplot)
-#  plot_grid(x, y, ncol=1, labels = c("A", "B"))
+# library(cowplot)
+# plot_grid(x, y, ncol=1, labels = c("A", "B"))
 
 ## ----fig.width=8, fig.height=4.5, fig.showtext=TRUE, message=TRUE-------------
 ## import pokemon fonts
